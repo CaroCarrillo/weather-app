@@ -3,7 +3,7 @@ import { useWeather } from "./hooks/useWeather";
 import { sanitizeString } from "./utils/validators";
 
 export default function App() {
-  const [city, setCity] = useState("GRAND PRAIRIE");
+  const [city, setCity] = useState("GRAND");
   const { loading, error, result, suggestions, searchTemperature } = useWeather();
 
   function getWeatherIcon(description) {
