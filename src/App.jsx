@@ -6,6 +6,20 @@ export default function App() {
   const [city, setCity] = useState("GRAND PRAIRIE");
   const { loading, error, result, suggestions, searchTemperature } = useWeather();
 
+  function getWeatherIcon(description) {
+    const text = String(description || "").toLowerCase();
+
+    if (text.includes("tormenta")) return "⛈️";
+    if (text.includes("granizo")) return "🌨️";
+    if (text.includes("nieve") || text.includes("nevada")) return "❄️";
+    if (text.includes("lluvia") || text.includes("llovizna") || text.includes("chubasco")) return "🌧️";
+    if (text.includes("neblina")) return "🌫️";
+    if (text.includes("nublado")) return "☁️";
+    if (text.includes("despejado")) return "☀️";
+
+    return "🌤️";
+  }
+
   function formatSuggestion(place) {
     const parts = [place.name, place.admin1, place.country].filter(Boolean).map(sanitizeString);
     return parts.join(", ");
@@ -78,8 +92,13 @@ export default function App() {
             <h2>
               {sanitizeString(result.city)}, {sanitizeString(result.country)}
             </h2>
-            <p>Temperatura actual: {result.temperature.toFixed(1)} °C</p>
-            <p>Condición: {sanitizeString(result.description)}</p>
+            <p className="weather-line">Temperatura actual: {result.temperature.toFixed(1)} °C</p>
+            <p className="weather-line">
+              <span className="weather-icon" aria-hidden="true">
+                {getWeatherIcon(result.description)}
+              </span>
+              <span>Condición: {sanitizeString(result.description)}</span>
+            </p>
           </article>
         )}
       </section>
